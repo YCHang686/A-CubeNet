@@ -11,8 +11,7 @@ The code is built on [EDSR (PyTorch)](https://github.com/thstkdgus35/EDSR-PyTorc
 
 2. Inspired by the non-local neural network, we design an adaptive hierarchical attention module (AHAM), which flexibly aggregates all output feature maps together by the hierarchical attention weights depending on global context. To the best of our knowledge, this is the first time to consider aggregating output feature maps in a hierarchical attention method with global context.
 <p align="center">
-    <img src="images/memory.png" width="640"> <br />
-    <em> Memory Consumption (MB) and average inference time (second). </em>
+    <img src="figs/Network.png" width="640"> <br />
 </p>
 
 ## Training
