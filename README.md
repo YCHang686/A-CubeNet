@@ -2,45 +2,104 @@
 Attention Cube Network for Image Restoration (ACM MM 2020)
 
 [[arXiv]](https://arxiv.org/abs/2009.05907)
-[[Poster]](https://github.com/YCHang686/A-CubeNet/blob/main/A-CubeNet.pdf)
+[[Poster]](https://github.com/YCHang686/A-CubeNet/blob/master/A-CubeNet.pdf)
 [[ACM DL]](https://dl.acm.org/doi/10.1145/3394171.3413564)
+
+The code is built on [EDSR (PyTorch)](https://github.com/thstkdgus35/EDSR-PyTorch) and tested on Ubuntu 16.04 environment (Python3.5, PyTorch_1.0.1 for DN/DB/SR) with 1080Ti GPUs.
 
 # Hightlights
 1. We propose an adaptive dual attention module (ADAM), including an adaptive spatial attention branch (ASAB) and an adaptive channel attention branch (ACAB). ADAM can capture the long-range spatial and channel-wise contextual information to expand the receptive field and distinguish different types of information for more effective feature representations. Therefore our A-CubeNet can obtain high-quality image restoration results. 
 
 2. Inspired by the non-local neural network, we design an adaptive hierarchical attention module (AHAM), which flexibly aggregates all output feature maps together by the hierarchical attention weights depending on global context. To the best of our knowledge, this is the first time to consider aggregating output feature maps in a hierarchical attention method with global context.
 
-## Testing
-Pytorch 1.1
-* Runing testing:
-```bash
-# Set5 x2 IMDN
-python test_IMDN.py --test_hr_folder Test_Datasets/Set5/ --test_lr_folder Test_Datasets/Set5_LR/x2/ --output_folder results/Set5/x2 --checkpoint checkpoints/IMDN_x2.pth --upscale_factor 2
-# RealSR IMDN_AS
-python test_IMDN_AS.py --test_hr_folder Test_Datasets/RealSR/ValidationGT --test_lr_folder Test_Datasets/RealSR/ValidationLR/ --output_folder results/RealSR --checkpoint checkpoints/IMDN_AS.pth
-
-```
-* Calculating IMDN_RTC's FLOPs and parameters, input size is 240*360
-```bash
-python calc_FLOPs.py
-```
-
 ## Training
 * Download [Training dataset DIV2K](https://drive.google.com/open?id=12hOYsMa8t1ErKj6PZA352icsx9mz1TwB)
-* Convert png file to npy file
+* Image super-resolution:
 ```bash
-python scripts/png2npy.py --pathFrom /path/to/DIV2K/ --pathTo /path/to/DIV2K_decoded/
+# Train_ACubeNet_SRX2, input=48x48, output=96x96
+#python main.py --template ACubeNet --save ACubeNet_SRX2 --scale 2 --reset --save_results --patch_size 96
+# Train_ACubeNet_SRX3, input=48x48, output=144x144
+#python main.py --template ACubeNet --save ACubeNet_SRX3 --scale 3 --reset --save_results --patch_size 144 --pre_train ../experiment/ACubeNet_SRX2/model/model_best.pt
+# Train_ACubeNet_SRX4, input=48x48, output=192x192
+#python main.py --template ACubeNet --save ACubeNet_SRX4 --scale 4 --reset --save_results --patch_size 192 --pre_train ../experiment/ACubeNet_SRX2/model/model_best.pt
+
 ```
-* Run training x2, x3, x4 model
+* Image denoising:
 ```bash
-python train_IMDN.py --root /path/to/DIV2K_decoded/ --scale 2 --pretrained checkpoints/IMDN_x2.pth
-python train_IMDN.py --root /path/to/DIV2K_decoded/ --scale 3 --pretrained checkpoints/IMDN_x3.pth
-python train_IMDN.py --root /path/to/DIV2K_decoded/ --scale 4 --pretrained checkpoints/IMDN_x4.pth
+#Train_noise level_10
+#python main.py --template ACubeNet --save ACubeNet_DN10 --reset --quality 1
+#Train_noise level_30
+#python main.py --template ACubeNet --save ACubeNet_DN30 --reset --quality 3
+#Train_noise level_50
+#python main.py --template ACubeNet --save ACubeNet_DN50 --reset --quality 5
+#Train_noise level_70
+#python main.py --template ACubeNet --save ACubeNet_DN70 --reset --quality 7
+
+```
+* JPEG image deblocking:
+```bash
+#Train_quality_10
+#python main.py --template ACubeNet --save ACubeNet_DB10 --reset --quality 1
+#Train_quality_20
+#python main.py --template ACubeNet --save ACubeNet_DB20 --reset --quality 2
+#Train_quality_30
+#python main.py --template ACubeNet --save ACubeNet_DB30 --reset --quality 3
+#Train_quality_40
+#python main.py --template ACubeNet --save ACubeNet_DB40 --reset --quality 4
+
+```
+
+## Testing
+* Download [Testing dataset LIVE1, Classic5, Kodak24, BSD68](https://pan.baidu.com/s/1qrj_ILqkH8N9_Y80GAKSzw)提取码: dkxv
+* Image super-resolution:
+```bash
+#Test_ACubeNet_SRX2, no self-ensemble
+#python main.py --template ACubeNet --data_test Set5+Set14+B100+Urban100+Manga109 --scale 2 --pre_train ../experiment/ACubeNet_SRX2/model/model_best.pt --test_only --save_results
+#Test_ACubeNet_SRX3, no self-ensemble
+#python main.py --template ACubeNet --data_test Set5+Set14+B100+Urban100+Manga109 --scale 3 --pre_train ../experiment/ACubeNet_SRX3/model/model_best.pt --test_only --save_results
+#Test_ACubeNet_SRX4, no self-ensemble
+#python main.py --template ACubeNet --data_test Set5+Set14+B100+Urban100+Manga109 --scale 4 --pre_train ../experiment/ACubeNet_SRX4/model/model_best.pt --test_only --save_results
+
+```
+* Image denoising:
+```bash
+#Test_noise level_10
+#python main.py --template ACubeNet --data_test BSD68+Kodak24 --pre_train  ../experiment/ACubeNet_DN10/model/model_best.pt --test_only --save_results --save_gt --quality 1
+#Test_noise level_30
+#python main.py --template ACubeNet --data_test BSD68+Kodak24 --pre_train  ../experiment/ACubeNet_DN30/model/model_best.pt --test_only --save_results --save_gt --quality 3
+#Test_noise level_50
+#python main.py --template ACubeNet --data_test BSD68+Kodak24 --pre_train  ../experiment/ACubeNet_DN50/model/model_best.pt --test_only --save_results --save_gt --quality 5
+#Test_noise level_70
+#python main.py --template ACubeNet --data_test BSD68+Kodak24 --pre_train  ../experiment/ACubeNet_DN70/model/model_best.pt --test_only --save_results --save_gt --quality 7
+
+```
+* Image denoising:
+```bash
+#Test_noise level_10
+#python main.py --template ACubeNet --data_test BSD68+Kodak24 --pre_train  ../experiment/ACubeNet_DN10/model/model_best.pt --test_only --save_results --save_gt --quality 1
+#Test_noise level_30
+#python main.py --template ACubeNet --data_test BSD68+Kodak24 --pre_train  ../experiment/ACubeNet_DN30/model/model_best.pt --test_only --save_results --save_gt --quality 3
+#Test_noise level_50
+#python main.py --template ACubeNet --data_test BSD68+Kodak24 --pre_train  ../experiment/ACubeNet_DN50/model/model_best.pt --test_only --save_results --save_gt --quality 5
+#Test_noise level_70
+#python main.py --template ACubeNet --data_test BSD68+Kodak24 --pre_train  ../experiment/ACubeNet_DN70/model/model_best.pt --test_only --save_results --save_gt --quality 7
+
+```
+* JPEG image deblocking:
+```bash
+#Test_quality_10
+#python main.py --template ACubeNet --data_test LIVE1+classic5 --pre_train  ../experiment/ACubeNet_DB10/model/model_best.pt --test_only --save_results --save_gt --quality 1
+#Test_quality_20
+#python main.py --template ACubeNet --data_test LIVE1+classic5 --pre_train  ../experiment/ACubeNet_DB20/model/model_best.pt --test_only --save_results --save_gt --quality 2
+#Test_quality_30
+#python main.py --template ACubeNet --data_test LIVE1+classic5 --pre_train  ../experiment/ACubeNet_DB30/model/model_best.pt --test_only --save_results --save_gt --quality 3
+#Test_quality_40
+#python main.py --template ACubeNet --data_test LIVE1+classic5 --pre_train  ../experiment/ACubeNet_DB40/model/model_best.pt --test_only --save_results --save_gt --quality 4
+
 ```
 
 ## Results
-[百度网盘](https://pan.baidu.com/s/1DY0Npete3WsIoFbjmgXQlw)提取码: 8yqj or
-[Google drive](https://drive.google.com/open?id=1GsEcpIZ7uA97D89WOGa9sWTSl4choy_O)
+[百度网盘](https://pan.baidu.com/s/1qrj_ILqkH8N9_Y80GAKSzw)提取码: dkxv
 
 The following PSNR/SSIMs are evaluated on Matlab R2017a and the code can be referred to [Evaluate_PSNR_SSIM.m](https://github.com/yulunzhang/RCAN/blob/master/RCAN_TestCode/Evaluate_PSNR_SSIM.m).
 
