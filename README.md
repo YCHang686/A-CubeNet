@@ -100,23 +100,28 @@ Quantitative Results
 <p align="center">
     <img src="figs/SR1.png"> <br />
 </p>
+
 * Image denoising:
 <p align="center">
     <img src="figs/DN1.png"> <br />
 </p>
+
 * JPEG image deblocking:
 <p align="center">
     <img src="figs/DB1.png"> <br />
 </p>
+
 Visual Results
 * Image super-resolution:
 <p align="center">
     <img src="figs/SR2.png"> <br />
 </p>
+
 * Image denoising:
 <p align="center">
     <img src="figs/DN2.png"> <br />
 </p>
+
 * JPEG image deblocking:
 <p align="center">
     <img src="figs/DB2.png"> <br />
