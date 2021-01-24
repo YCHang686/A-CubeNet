@@ -93,22 +93,15 @@ The following PSNR/SSIMs are evaluated on Matlab R2017a and the code can be refe
 
 ## Citation
 
-If you find IMDN useful in your research, please consider citing:
+If you find A-CubeNet useful in your research, please consider citing:
 
 ```
-@inproceedings{Hui-IMDN-2019,
-  title={Lightweight Image Super-Resolution with Information Multi-distillation Network},
-  author={Hui, Zheng and Gao, Xinbo and Yang, Yunchu and Wang, Xiumei},
-  booktitle={Proceedings of the 27th ACM International Conference on Multimedia (ACM MM)},
-  pages={2024--2032},
-  year={2019}
-}
-
-@inproceedings{AIM19constrainedSR,
-  title={AIM 2019 Challenge on Constrained Super-Resolution: Methods and Results},
-  author={Kai Zhang and Shuhang Gu and Radu Timofte and others},
-  booktitle={The IEEE International Conference on Computer Vision (ICCV) Workshops},
-  year={2019}
+@inproceedings{hang2020attention,
+  title={Attention Cube Network for Image Restoration},
+  author={Hang, Yucheng and Liao, Qingmin and Yang, Wenming and Chen, Yupeng and Zhou, Jie},
+  booktitle={Proceedings of the 28th ACM International Conference on Multimedia},
+  pages={2562--2570},
+  year={2020}
 }
 
 ```
