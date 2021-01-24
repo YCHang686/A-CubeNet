@@ -11,7 +11,13 @@ The code is built on [EDSR (PyTorch)](https://github.com/thstkdgus35/EDSR-PyTorc
 
 2. Inspired by the non-local neural network, we design an adaptive hierarchical attention module (AHAM), which flexibly aggregates all output feature maps together by the hierarchical attention weights depending on global context. To the best of our knowledge, this is the first time to consider aggregating output feature maps in a hierarchical attention method with global context.
 <p align="center">
-    <img src="figs/Network.png" width="640"> <br />
+    <img src="figs/Network.png"> <br />
+</p>
+<p align="center">
+    <img src="figs/ADAM.png"> <br />
+</p>
+<p align="center">
+    <img src="figs/AHAM.png"> <br />
 </p>
 
 ## Training
@@ -89,11 +95,32 @@ The code is built on [EDSR (PyTorch)](https://github.com/thstkdgus35/EDSR-PyTorc
 ```
 
 ## Results
-Please refer to the paper for Quantitative Results.
-Visual Results:
+Quantitative Results
 * Image super-resolution:
-
-
+<p align="center">
+    <img src="figs/SR1.png"> <br />
+</p>
+* Image denoising:
+<p align="center">
+    <img src="figs/DN1.png"> <br />
+</p>
+* JPEG image deblocking:
+<p align="center">
+    <img src="figs/DB1.png"> <br />
+</p>
+Visual Results
+* Image super-resolution:
+<p align="center">
+    <img src="figs/SR2.png"> <br />
+</p>
+* Image denoising:
+<p align="center">
+    <img src="figs/DN2.png"> <br />
+</p>
+* JPEG image deblocking:
+<p align="center">
+    <img src="figs/DB2.png"> <br />
+</p>
 
 ## Citation
 
