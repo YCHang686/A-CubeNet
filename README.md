@@ -58,7 +58,7 @@ The code is built on [EDSR (PyTorch)](https://github.com/thstkdgus35/EDSR-PyTorc
 ```
 
 ## Testing
-* Download [Testing dataset LIVE1, Classic5, Kodak24, BSD68](https://pan.baidu.com/s/1qrj_ILqkH8N9_Y80GAKSzw) 提取码: dkxv
+* Download [Testing dataset LIVE1, Classic5, Kodak24, BSD68](https://pan.baidu.com/s/1qrj_ILqkH8N9_Y80GAKSzw) code: dkxv
 * Download [models](https://drive.google.com/file/d/14fqRjc4p-THgvLUJiZkLTJBpqM41kUYM/view?usp=sharing)
 * Image super-resolution:
 ```bash
